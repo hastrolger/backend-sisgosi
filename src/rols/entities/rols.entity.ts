@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn } from "typeorm";
 
 @Entity()
 export class Rols {
@@ -16,9 +16,12 @@ export class Rols {
     @Column({type: 'text', nullable: true})
     description: string
 
-    @Column({name: 'created_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({name: 'created_at'})
     createdAt: Date
 
-    @Column({name: 'updated_at', type: 'datetime', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({name: 'updated_at'})
     updatedAt: Date
+
+    @DeleteDateColumn({name: 'is_deleted'})
+    isDeleted: Date
 }
