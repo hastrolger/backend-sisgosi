@@ -1,26 +1,67 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './entities/user.entity';
+import { Repository } from 'typeorm';
+import { RolsService } from 'src/rols/rols.service';
 
 @Injectable()
 export class UsersService {
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  constructor(
+    @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly rolService: RolsService,
+  ) {}
+
+  async create(createUserDto: CreateUserDto) {
+    const rol = await this.rolService.findOne(createUserDto.rol);
+
+    createUserDto.rol = (await rol).id;
+
+    const newUser = await this.userRepository.create({
+      ...createUserDto,
+      rol: { id: (await rol).id },
+    });
+
+    return this.userRepository.save(newUser);
   }
 
-  findAll() {
-    return `This action returns all users`;
+ async findAll() {
+    return await this.userRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
+  async findOne(username: string) {
+    return await this.userRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(username: string, updateUserDto: UpdateUserDto) {
+    const rol = await this.rolService.findOne(updateUserDto.rol);
+
+    updateUserDto.rol = (await rol).id;
+
+    const user = await this.userRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
+
+    return this.userRepository.update((await user).id, {
+      ...updateUserDto,
+      rol: { id: (await rol).id },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(username: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        username: username,
+      },
+    });
+
+    return this.userRepository.softDelete((await user).id);
   }
 }

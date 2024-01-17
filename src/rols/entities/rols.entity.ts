@@ -1,8 +1,9 @@
 import { v4 as uuidv4 } from "uuid";
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, DeleteDateColumn, OneToMany } from "typeorm";
+import { User } from "src/users/entities/user.entity";
 
-@Entity()
-export class Rols {
+@Entity({name: 'rols'})
+export class Rol {
     constructor() {
         this.id = uuidv4() 
     }
@@ -24,4 +25,7 @@ export class Rols {
 
     @DeleteDateColumn({name: 'is_deleted'})
     isDeleted: Date
+
+    @OneToMany(() => User, (user) => user.rol, {cascade: false})
+    user: User[]
 }

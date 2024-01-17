@@ -1,6 +1,7 @@
-import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
 import { RolsService } from './rols.service';
 import { CreateRolDto } from './dto/create-rol.dto';
+import { UpdateRolDto } from './dto/update-rol.dto';
 
 @Controller('rols')
 export class RolsController {
@@ -11,9 +12,9 @@ export class RolsController {
         return this.rolsService.findAll();
     }
 
-    @Get(':rolName')
-    findOneBy(@Param('rolName') rolName: string) {
-        return this.rolsService.findOneBy(rolName);
+    @Patch(':rolName')
+    update(@Param('rolName') rolName: string, @Body() updateRolDto: UpdateRolDto) {
+        return this.rolsService.update(rolName, updateRolDto)
     }
 
     @Post()

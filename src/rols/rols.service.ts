@@ -1,39 +1,45 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Rols } from './entities/rols.entity';
+import { Rol } from './entities/rols.entity';
 import { Repository } from 'typeorm';
 import { CreateRolDto } from './dto/create-rol.dto';
+import { UpdateRolDto } from './dto/update-rol.dto';
 
 @Injectable()
 export class RolsService {
-    constructor(@InjectRepository(Rols) private rolsRespository: Repository<Rols>) { }
+  constructor(
+    @InjectRepository(Rol) private rolsRespository: Repository<Rol>,
+  ) {}
 
-    async findAll(): Promise<Rols[]> {
-        return await this.rolsRespository.find();
-    }
+  async findAll(): Promise<Rol[]> {
+    return await this.rolsRespository.find();
+  }
 
-    async findOneBy(rolName: string) {
-        return this.rolsRespository.findOne(
-            {
-                where: 
-                {name: rolName}
-            }
-        )
-    }
+  async findOne(rolName: string) {
+    return await this.rolsRespository.findOne({
+      where: {
+        name: rolName,
+      },
+    });
+  }
 
-    async create(createRolDto: CreateRolDto) {
-        const newRol = this.rolsRespository.create(createRolDto)
-        return await this.rolsRespository.save(newRol)
-    }
+  async create(createRolDto: CreateRolDto) {
+    const newRol = await this.rolsRespository.create(createRolDto);
+    return await this.rolsRespository.save(newRol);
+  }
 
-    async delete(rolName: string) {
-        const rolID = this.rolsRespository.findOne(
-            {
-                where: 
-                {name: rolName}
-            }
-        )
-        
-        return await this.rolsRespository.softDelete((await rolID).id)
-    }
+  async update(rolName: string, updateRolDto: UpdateRolDto) {
+    const rol = await this.rolsRespository.findOne({
+      where: { name: rolName },
+    });
+    return await this.rolsRespository.update((await rol).id, updateRolDto);
+  }
+
+  async delete(rolName: string) {
+    const rol = await this.rolsRespository.findOne({
+      where: { name: rolName },
+    });
+
+    return await this.rolsRespository.softDelete((await rol).id);
+  }
 }
