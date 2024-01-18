@@ -1,5 +1,5 @@
 import { Rol } from "src/rols/entities/rols.entity"
-import { Column, CreateDateColumn, DeepPartial, DeleteDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
+import { Column, CreateDateColumn, DeepPartial, DeleteDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm"
 import { v4 as uuidv4} from 'uuid'
 
 @Entity({name: 'users'})
@@ -42,6 +42,6 @@ export class User {
     isDeleted: Date
 
     @ManyToOne(() => Rol, (rol) => rol.user, {eager: true, cascade: false})
-    @JoinTable({name: 'rol_id'})
+    @JoinColumn({name: 'rol_id'})
     rol: DeepPartial<Rol>
 }

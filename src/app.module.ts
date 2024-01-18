@@ -2,10 +2,14 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { RolsModule } from './rols/rols.module';
+import { RolModule } from './rols/rol.module';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
+import { UserModule } from './users/user.module';
 import { DataSource } from 'typeorm';
+import { RegionsModule } from './regions/regions.module';
+import { StateModule } from './states/state.module';
+import { CityModule } from './cities/city.module';
+import { CustomerModule } from './customers/customer.module';
 
 @Module({
   imports: [
@@ -25,8 +29,12 @@ import { DataSource } from 'typeorm';
         migrationsTableName: 'migrations_table',
     }
     ),
-    RolsModule,
-    UsersModule,
+    RolModule,
+    UserModule,
+    RegionsModule,
+    StateModule,
+    CityModule,
+    CustomerModule,
     
   ],
   controllers: [AppController],

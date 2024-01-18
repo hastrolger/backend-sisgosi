@@ -1,11 +1,11 @@
 import { Body, Controller, Delete, Get, Param, Patch, Post } from '@nestjs/common';
-import { RolsService } from './rols.service';
+import { RolService } from './rol.service';
 import { CreateRolDto } from './dto/create-rol.dto';
 import { UpdateRolDto } from './dto/update-rol.dto';
 
 @Controller('rols')
-export class RolsController {
-    constructor(private rolsService: RolsService){}
+export class RolController {
+    constructor(private rolsService: RolService){}
 
     @Get()
     findAll() {
