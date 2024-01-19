@@ -4,63 +4,54 @@ import { UpdateStateDto } from './dto/update-state.dto';
 import { State } from './entities/state.entity';
 import { Region } from '../regions/entities/region.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { EntityNotFoundError, Repository } from 'typeorm';
 
 @Injectable()
 export class StateService {
   constructor(
     @InjectRepository(State) private stateRepository: Repository<State>,
     @InjectRepository(Region) private regionRepository: Repository<Region>,
-  ) {}
+  ) { }
 
   async create(createStateDto: CreateStateDto) {
-   /**
-     * get city by cityRepository to validate if exists
-     */
-   let state: any;
-   try {
-    state = await this.stateRepository.findOne({
-       where: {
-         name: createStateDto.name,
-       },
-     });
-   } catch {
-     (err) => console.log(err);
-     throw new Error('Error al obtener la provincia');
-   }
+    try {
+      const state = await this.stateRepository.findOne({
+        where: {
+          name: createStateDto.name,
+        },
+      });
 
-   if (!state) {
-     let region: any;
-     try {
-       region = await this.regionRepository.findOne({
-         where: {
-           name: createStateDto.region,
-         },
-       });
-     } catch {
-       (err) => console.log(err);
-       throw new Error('Error al obtener la provincia');
-     }
+      if (state) {
+        throw new HttpException(
+          'La provincia ya existe',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
 
-     if (region) {
+      const region = await this.regionRepository.findOneOrFail({
+        where: {
+          name: createStateDto.region,
+        },
+      });
+
       createStateDto.region = (await region).id;
-       const newState = await this.stateRepository.create({
-         ...createStateDto,
-         region: { id: (await region).id },
-       });
-       return await this.stateRepository.save(newState);
-     } else {
-       throw new HttpException(
-         'La región no existe, provincia no creada',
-         HttpStatus.BAD_REQUEST,
-       );
-     }
-   } else {
-       throw new HttpException(
-         'La provincia ya existe',
-         HttpStatus.NOT_FOUND,
-       );
-   }
+      const newState = await this.stateRepository.create({
+        ...createStateDto,
+        region: { id: (await region).id },
+      });
+
+      return await this.stateRepository.save(newState);
+    } catch (error) {
+      console.log(error);
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          'La región no existe, provincia no creada',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new Error('Error al crear el estado');
+      }
+    }
   }
 
   async findAll() {
@@ -73,89 +64,84 @@ export class StateService {
   }
 
   async findOne(stateName: string) {
-    let state: any;
     try {
-      state = await this.stateRepository.findOne({
+      return await this.stateRepository.findOneOrFail({
         where: {
           name: stateName,
-        },
-      });
-    } catch {
-      (err) => console.log(err);
-      throw new Error('Error al obtener la provincia');
-    }
+        }
+      })
 
-    if (state) {
-      return state;
-    } else {
-      return 'Provincia no encontrada';
+    } catch (error) {
+      console.log(error);
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          'La provincia no existe',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new Error('Error al obtener la provincia');
+      }
     }
   }
 
   async update(stateName: string, updateStateDto: UpdateStateDto) {
-    /**
-     * get state by stateRepository
-     */
-    let state: any;
     try {
-      state = await this.stateRepository.findOne({
+      const state = await this.stateRepository.findOne({
         where: {
           name: stateName,
         },
       });
-    } catch {
-      (err) => console.log(err);
-      throw new Error('Error al obtener la provincia');
-    }
 
-    if (state) {
-      /**
-       * get region by regionRepository
-       */
-      let region: any;
-      try {
-        region = await this.regionRepository.findOne({
-          where: {
-            name: updateStateDto.region,
-          },
-        });
-      } catch {
-        (err) => console.log(err);
-        throw new Error('Error al obtener la región');
+      if (!state) {
+        throw new HttpException(
+          'La provincia no existe',
+          HttpStatus.BAD_REQUEST,
+        );
       }
 
-      if (region) {
-        /**
-         * update state
-         */
-        updateStateDto.region = (await region).id;
-        return await this.stateRepository.update((await state).id, {
-          ...updateStateDto,
-          region: { id: (await region).id },
-        });
+      const region = await this.regionRepository.findOneOrFail({
+        where: {
+          name: updateStateDto.region,
+        },
+      });
+
+      updateStateDto.region = (await region).id;
+      return await this.stateRepository.update((await state).id, {
+        ...updateStateDto,
+        region: { id: (await region).id },
+      });
+    } catch (error) {
+      console.log(error);
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          'La región no existe, provincia no actualizada',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new Error('Error al actualizar el estado');
       }
-    } else {
-      throw new HttpException('La provincia no existe', HttpStatus.BAD_REQUEST);
     }
   }
 
   async remove(stateName: string) {
-    let state: any;
     try {
-      state = await this.stateRepository.findOne({
+     const state = await this.stateRepository.findOneOrFail({
         where: {
           name: stateName,
         },
-      });
-    } catch {
-      (err) => console.log(err);
-      throw new Error('Error al eliminar la provincia');
-    }
+      })
 
-    if (state) {
       return await this.stateRepository.softDelete((await state).id);
-    } else {
-      return 'Provincia no encontrada';
+    } catch (error) {
+      console.log(error);
+      if (error instanceof EntityNotFoundError) {
+        throw new HttpException(
+          'El estado no existe',
+          HttpStatus.BAD_REQUEST,
+        );
+      } else {
+        throw new Error('Error al obtener el estado');
+      }
     }
   }
 }

@@ -10,6 +10,11 @@ import { RegionsModule } from './regions/regions.module';
 import { StateModule } from './states/state.module';
 import { CityModule } from './cities/city.module';
 import { CustomerModule } from './customers/customer.module';
+import { TerminalVendorModule } from './terminal-vendor/terminal-vendor.module';
+import { TerminalModelModule } from './terminal-model/terminal-model.module';
+import { TerminalTypeModule } from './terminal-type/terminal-type.module';
+import { TerminalStatusModule } from './terminal-status/terminal-status.module';
+import { TerminalModule } from './terminal/terminal.module';
 
 @Module({
   imports: [
@@ -35,6 +40,11 @@ import { CustomerModule } from './customers/customer.module';
     StateModule,
     CityModule,
     CustomerModule,
+    TerminalVendorModule,
+    TerminalModelModule,
+    TerminalTypeModule,
+    TerminalStatusModule,
+    TerminalModule,
     
   ],
   controllers: [AppController],

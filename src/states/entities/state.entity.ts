@@ -1,33 +1,16 @@
+import { CommonEntityAttributes } from "src/bases/commonEntityAttributes";
 import { City } from "src/cities/entities/city.entity";
 import { Region } from "src/regions/entities/region.entity";
-import { Column, CreateDateColumn,DeepPartial, DeleteDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import {v4 as uuidv4} from 'uuid'
+import {DeepPartial, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
+
 
 @Entity('states')
-export class State {
+export class State extends CommonEntityAttributes {
     constructor() {
-        this.id = uuidv4()
+        super()
     }
 
-    @PrimaryGeneratedColumn('uuid')
-    id: string
-
-    @Column({unique: true, length: 25})
-    name: string
-
-    @Column({type: 'text', nullable: true})
-    description: string
-
-    @CreateDateColumn({name: 'created_at'})
-    createdAt: Date
-
-    @UpdateDateColumn({name: 'updated_at'})
-    updatedAt: Date
-
-    @DeleteDateColumn({name: 'deleted_at'})
-    deletedAt: Date
-
-    @ManyToOne(() => Region, (region) => region.state)
+    @ManyToOne(() => Region, (region) => region.states, {nullable: false, eager: true, cascade: false})
     @JoinColumn({name: 'region_id'})
     region: DeepPartial<Region>
 

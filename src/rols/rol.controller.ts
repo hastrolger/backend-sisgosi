@@ -25,7 +25,7 @@ export class RolController {
     @Delete(':rolName')
     delete(@Param('rolName') rolName: string) {
         console.log(rolName)
-        return this.rolsService.delete(rolName)
+        return this.rolsService.remove(rolName)
     }
 
 }

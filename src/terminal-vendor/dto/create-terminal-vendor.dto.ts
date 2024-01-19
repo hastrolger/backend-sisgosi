@@ -1,6 +1,6 @@
 import { IsNotEmpty, IsOptional, MinLength } from "class-validator"
 
-export class CreateCustomerDto {
+export class CreateTerminalVendorDto {
     @IsNotEmpty()
     @MinLength(5)
     name: string
@@ -8,3 +8,4 @@ export class CreateCustomerDto {
     @IsOptional()
     description: string
 }
+
