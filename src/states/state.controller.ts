@@ -17,11 +17,6 @@ export class StateController {
     return this.statesService.findAll();
   }
 
-  @Get(':state')
-  findOne(@Param('state') state: string) {
-    return this.statesService.findOne(state);
-  }
-
   @Patch(':state')
   update(@Param('state') state: string, @Body() updateStateDto: UpdateStateDto) {
     return this.statesService.update(state, updateStateDto);

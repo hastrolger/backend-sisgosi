@@ -44,26 +44,6 @@ export class CustomerService {
     }
   }
 
-  async findOne(customerName: string) {
-    try {
-      return await this.customerRepository.findOneOrFail({
-        where: {
-          name: customerName,
-        },
-      });
-    }catch (error) {
-        console.log(error);
-        if (error instanceof EntityNotFoundError) {
-          throw new HttpException(
-            'El cliente no existe',
-            HttpStatus.BAD_REQUEST,
-          );
-        } else {
-          throw new Error('Error al obtener el cliente');
-        }
-      }
-  }
-
   async update(customerName: string, updateCustomerDto: UpdateCustomerDto) {
     try {
       const customer = await this.customerRepository.findOneOrFail(
@@ -73,7 +53,7 @@ export class CustomerService {
           }
         }
       )
-      return await this.customerRepository.update((await customer).id, updateCustomerDto);
+      return await this.customerRepository.update(customer.id, updateCustomerDto);
   } catch (error) {
     console.log(error);
     if (error instanceof EntityNotFoundError) {
@@ -96,7 +76,7 @@ export class CustomerService {
           }
         }
       )
-      return await this.customerRepository.softDelete((await customer).id);
+      return await this.customerRepository.softDelete(customer.id);
     } catch (error) {
       console.log(error);
       if (error instanceof EntityNotFoundError) {

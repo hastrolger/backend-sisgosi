@@ -45,26 +45,6 @@ export class RegionsService {
     }
   }
 
-  async findOne(regionName: string) {
-    try {
-      return await this.regionRepository.findOneOrFail({
-        where: {
-          name: regionName,
-        },
-      });
-    }catch (error) {
-        console.log(error);
-        if (error instanceof EntityNotFoundError) {
-          throw new HttpException(
-            'La región no existe',
-            HttpStatus.BAD_REQUEST,
-          );
-        } else {
-          throw new Error('Error al obtener la región');
-        }
-      }
-  }
-
   async update(regionName: string, updateRegionDto: UpdateRegionDto) {
     try {
       const region = await this.regionRepository.findOneOrFail(
@@ -74,7 +54,7 @@ export class RegionsService {
           }
         }
       )
-      return await this.regionRepository.update((await region).id, updateRegionDto);
+      return await this.regionRepository.update(region.id, updateRegionDto);
   } catch (error) {
     console.log(error);
     if (error instanceof EntityNotFoundError) {
@@ -97,7 +77,7 @@ export class RegionsService {
           }
         }
       )
-      return await this.regionRepository.softDelete((await region).id);
+      return await this.regionRepository.softDelete(region.id);
     } catch (error) {
       console.log(error);
       if (error instanceof EntityNotFoundError) {

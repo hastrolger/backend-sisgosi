@@ -34,10 +34,9 @@ export class CityService {
         },
       });
 
-      createCityDto.state = (await state).id;
       const newCity = await this.cityRepository.create({
         ...createCityDto,
-        state: { id: (await state).id },
+        state: { id: state.id },
       });
 
       return await this.cityRepository.save(newCity);
@@ -64,26 +63,6 @@ export class CityService {
     }
   }
 
-  async findOne(cityName: string) {
-    try {
-      return await this.cityRepository.findOneOrFail({
-        where: {
-          name: cityName,
-        },
-      });
-    } catch (error) {
-      console.log(error);
-      if (error instanceof EntityMetadataNotFoundError) {
-        throw new HttpException(
-          'El estado no existe',
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        throw new Error('Error al obtener los datos');
-      }
-    }
-  }
-
   async update(cityName: string, updateCityDto: UpdateCityDto) {
     try {
       const city = await this.cityRepository.findOne({
@@ -106,13 +85,9 @@ export class CityService {
         },
       });
 
-      /**
-       * update state
-       */
-      updateCityDto.state = (await state).id;
-      return await this.cityRepository.update((await city).id, {
+      return await this.cityRepository.update(city.id, {
         ...updateCityDto,
-        state: { id: (await state).id },
+        state: { id: state.id },
       });
     } catch (error) {
       console.log(error);
@@ -136,7 +111,7 @@ export class CityService {
         },
       });
 
-      return await this.cityRepository.softDelete((await city).id);
+      return await this.cityRepository.softDelete(city.id);
     } catch (error) {
       console.log(error);
       if (error instanceof EntityNotFoundError) {

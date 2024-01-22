@@ -16,12 +16,7 @@ export class TerminalVendorController {
   findAll() {
     return this.terminalVendorService.findAll();
   }
-
-  @Get(':name')
-  findOne(@Param('name') name: string) {
-    return this.terminalVendorService.findOne(name);
-  }
-
+  
   @Patch(':name')
   update(@Param('name') name: string, @Body() updateTerminalVendorDto: UpdateTerminalVendorDto) {
     return this.terminalVendorService.update(name, updateTerminalVendorDto);

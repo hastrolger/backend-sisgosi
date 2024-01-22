@@ -34,10 +34,9 @@ export class StateService {
         },
       });
 
-      createStateDto.region = (await region).id;
       const newState = await this.stateRepository.create({
         ...createStateDto,
-        region: { id: (await region).id },
+        region: { id: region.id },
       });
 
       return await this.stateRepository.save(newState);
@@ -57,30 +56,9 @@ export class StateService {
   async findAll() {
     try {
       return await this.stateRepository.find();
-    } catch {
-      (err) => console.log(err);
-      throw new Error('Error al obtener las provincias');
-    }
-  }
-
-  async findOne(stateName: string) {
-    try {
-      return await this.stateRepository.findOneOrFail({
-        where: {
-          name: stateName,
-        }
-      })
-
     } catch (error) {
-      console.log(error);
-      if (error instanceof EntityNotFoundError) {
-        throw new HttpException(
-          'La provincia no existe',
-          HttpStatus.BAD_REQUEST,
-        );
-      } else {
-        throw new Error('Error al obtener la provincia');
-      }
+      console.log(error)
+      throw new Error('Error al obtener las provincias');
     }
   }
 
@@ -105,10 +83,9 @@ export class StateService {
         },
       });
 
-      updateStateDto.region = (await region).id;
-      return await this.stateRepository.update((await state).id, {
+      return await this.stateRepository.update(state.id, {
         ...updateStateDto,
-        region: { id: (await region).id },
+        region: { id: region.id },
       });
     } catch (error) {
       console.log(error);
@@ -131,7 +108,7 @@ export class StateService {
         },
       })
 
-      return await this.stateRepository.softDelete((await state).id);
+      return await this.stateRepository.softDelete(state.id);
     } catch (error) {
       console.log(error);
       if (error instanceof EntityNotFoundError) {

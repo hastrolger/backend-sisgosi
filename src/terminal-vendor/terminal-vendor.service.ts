@@ -44,30 +44,7 @@ export class TerminalVendorService {
       console.log(error)
       throw new Error('Error al obtener los proveedores')
     }
-  }
-
-  async findOne(terminalVendorName: string) {
-    try {
-      return await this.terminalVendorRepository.findOneOrFail(
-        {
-          where: {
-            name: terminalVendorName
-          }
-        }
-      )
-    } catch (error) {
-      console.log(error)
-      if(error instanceof EntityNotFoundError){
-        throw new HttpException(
-          'El proveedor no existe',
-          HttpStatus.BAD_REQUEST
-        ) 
-      } else {
-          throw new Error('Error al obtener el proveedor')
-        }
-      }
-  }
-  
+  }  
 
   async update(terminalVendorName: string, updateTerminalVendorDto: UpdateTerminalVendorDto) {
     try {
@@ -86,7 +63,7 @@ export class TerminalVendorService {
         )
       }
 
-      return await this.terminalVendorRepository.update((await terminalVendor).id, {...updateTerminalVendorDto})
+      return await this.terminalVendorRepository.update(terminalVendor.id, {...updateTerminalVendorDto})
     } catch (error) {
       console.log(error)
       if(error instanceof EntityNotFoundError){

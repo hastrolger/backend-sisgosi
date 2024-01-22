@@ -3,7 +3,7 @@ import { TerminalModelService } from './terminal-model.service';
 import { CreateTerminalModelDto } from './dto/create-terminal-model.dto';
 import { UpdateTerminalModelDto } from './dto/update-terminal-model.dto';
 
-@Controller('terminal-model')
+@Controller('terminal-models')
 export class TerminalModelController {
   constructor(private readonly terminalModelService: TerminalModelService) {}
 
@@ -15,11 +15,6 @@ export class TerminalModelController {
   @Get()
   findAll() {
     return this.terminalModelService.findAll();
-  }
-
-  @Get(':name')
-  findOne(@Param('name') name: string) {
-    return this.terminalModelService.findOne(name);
   }
 
   @Patch(':name')

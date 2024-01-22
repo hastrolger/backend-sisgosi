@@ -53,7 +53,7 @@ export class RolService {
         where: { name: rolName },
       })
 
-      return await this.rolRepository.update((await rol).id, updateRolDto);
+      return await this.rolRepository.update(rol.id, updateRolDto);
     } catch (error) {
       console.log(error)
       if (error instanceof EntityNotFoundError) {
@@ -73,7 +73,7 @@ export class RolService {
         where: { name: rolName },
       });
 
-      return await this.rolRepository.softDelete((await rol).id);
+      return await this.rolRepository.softDelete(rol.id);
     } catch (error) {
       console.log(error);
       if (error instanceof EntityNotFoundError) {

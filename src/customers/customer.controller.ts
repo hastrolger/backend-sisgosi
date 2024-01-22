@@ -17,11 +17,6 @@ export class CustomerController {
     return this.customerService.findAll();
   }
 
-  @Get(':name')
-  findOne(@Param('name') name: string) {
-    return this.customerService.findOne(name);
-  }
-
   @Patch(':name')
   update(@Param('name') name: string, @Body() updateCustomerDto: UpdateCustomerDto) {
     return this.customerService.update(name, updateCustomerDto);
