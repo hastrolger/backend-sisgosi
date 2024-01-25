@@ -3,7 +3,7 @@ import { TerminalStatusService } from './terminal-status.service';
 import { CreateTerminalStatusDto } from './dto/create-terminal-status.dto';
 import { UpdateTerminalStatusDto } from './dto/update-terminal-status.dto';
 
-@Controller('terminal-status')
+@Controller('terminal-statuses')
 export class TerminalStatusController {
   constructor(private readonly terminalStatusService: TerminalStatusService) {}
 
@@ -17,18 +17,13 @@ export class TerminalStatusController {
     return this.terminalStatusService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.terminalStatusService.findOne(+id);
+  @Patch(':name')
+  update(@Param('name') name: string, @Body() updateTerminalStatusDto: UpdateTerminalStatusDto) {
+    return this.terminalStatusService.update(name, updateTerminalStatusDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTerminalStatusDto: UpdateTerminalStatusDto) {
-    return this.terminalStatusService.update(+id, updateTerminalStatusDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.terminalStatusService.remove(+id);
+  @Delete(':name')
+  remove(@Param('name') name: string) {
+    return this.terminalStatusService.remove(name);
   }
 }

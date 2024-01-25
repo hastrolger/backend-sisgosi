@@ -9,5 +9,6 @@ import { TerminalVendor } from 'src/terminal-vendor/entities/terminal-vendor.ent
   imports: [TypeOrmModule.forFeature([TerminalModel, TerminalVendor])],
   controllers: [TerminalModelController],
   providers: [TerminalModelService],
+  exports: [TypeOrmModule],
 })
 export class TerminalModelModule {}

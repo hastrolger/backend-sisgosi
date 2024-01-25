@@ -12,9 +12,15 @@ import { CityModule } from './cities/city.module';
 import { CustomerModule } from './customers/customer.module';
 import { TerminalVendorModule } from './terminal-vendor/terminal-vendor.module';
 import { TerminalModelModule } from './terminal-model/terminal-model.module';
-import { TerminalTypeModule } from './terminal-type/terminal-type.module';
 import { TerminalStatusModule } from './terminal-status/terminal-status.module';
 import { TerminalModule } from './terminal/terminal.module';
+import { TerminalTypeModule } from './terminal-type/terminal-type.module';
+import { TerminalLocationModule } from './terminal-location/terminal-location.module';
+import { TechnicalAssistanceModule } from './technical-assistance/technical-assistance.module';
+import { InternalTechnicalAssistanceTypeModule } from './internal-technical-assistance-type/internal-technical-assistance-type.module';
+import { TechnicalAssistanceTypeModule } from './technical-assistance-type/technical-assistance-type.module';
+import { TerminalPurchaseOrderModule } from './terminal-purchase-order/terminal-purchase-order.module';
+import { TechnicalAssistanceStatusModule } from './technical-assistance-status/technical-assistance-status.module';
 
 @Module({
   imports: [
@@ -42,9 +48,15 @@ import { TerminalModule } from './terminal/terminal.module';
     CustomerModule,
     TerminalVendorModule,
     TerminalModelModule,
-    TerminalTypeModule,
     TerminalStatusModule,
     TerminalModule,
+    TerminalTypeModule,
+    TerminalLocationModule,
+    TerminalPurchaseOrderModule,
+    TechnicalAssistanceModule,
+    InternalTechnicalAssistanceTypeModule,
+    TechnicalAssistanceTypeModule,
+    TechnicalAssistanceStatusModule,
     
   ],
   controllers: [AppController],

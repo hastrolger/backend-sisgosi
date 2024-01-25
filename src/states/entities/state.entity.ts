@@ -1,6 +1,7 @@
 import { CommonEntityAttributes } from "src/bases/commonEntityAttributes";
 import { City } from "src/cities/entities/city.entity";
 import { Region } from "src/regions/entities/region.entity";
+import { Terminal } from "src/terminal/entities/terminal.entity";
 import {DeepPartial, Entity, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 
 
@@ -16,4 +17,7 @@ export class State extends CommonEntityAttributes {
 
     @OneToMany(() => City, (city) => city.state)
     city: City[]
+
+    @OneToMany(() => Terminal, (terminal) => terminal.state)
+    terminals: Terminal
 }

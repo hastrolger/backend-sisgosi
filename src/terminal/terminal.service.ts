@@ -12,15 +12,15 @@ export class TerminalService {
     return `This action returns all terminal`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} terminal`;
+  findOne(code: string) {
+    return 
   }
 
-  update(id: number, updateTerminalDto: UpdateTerminalDto) {
-    return `This action updates a #${id} terminal`;
+  update(code: string, updateTerminalDto: UpdateTerminalDto) {
+    return 
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} terminal`;
+  remove(code: string) {
+    return
   }
 }

@@ -10,5 +10,6 @@ import { Rol } from 'src/rols/entities/rols.entity';
   imports: [TypeOrmModule.forFeature([User, Rol])],
   controllers: [UserController],
   providers: [UserService],
+  exports: [TypeOrmModule]
 })
 export class UserModule {}

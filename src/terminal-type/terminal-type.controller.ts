@@ -3,7 +3,7 @@ import { TerminalTypeService } from './terminal-type.service';
 import { CreateTerminalTypeDto } from './dto/create-terminal-type.dto';
 import { UpdateTerminalTypeDto } from './dto/update-terminal-type.dto';
 
-@Controller('terminal-type')
+@Controller('terminal-types')
 export class TerminalTypeController {
   constructor(private readonly terminalTypeService: TerminalTypeService) {}
 
@@ -17,18 +17,14 @@ export class TerminalTypeController {
     return this.terminalTypeService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.terminalTypeService.findOne(+id);
+
+  @Patch(':name')
+  update(@Param('name') name: string, @Body() updateTerminalTypeDto: UpdateTerminalTypeDto) {
+    return this.terminalTypeService.update(name, updateTerminalTypeDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTerminalTypeDto: UpdateTerminalTypeDto) {
-    return this.terminalTypeService.update(+id, updateTerminalTypeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.terminalTypeService.remove(+id);
+  @Delete(':name')
+  remove(@Param('name') name: string) {
+    return this.terminalTypeService.remove(name);
   }
 }

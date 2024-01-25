@@ -17,18 +17,18 @@ export class TerminalController {
     return this.terminalService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.terminalService.findOne(+id);
+  @Get(':code')
+  findOne(@Param('code') code: string) {
+    return this.terminalService.findOne(code);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTerminalDto: UpdateTerminalDto) {
-    return this.terminalService.update(+id, updateTerminalDto);
+  @Patch(':code')
+  update(@Param('code') code: string, @Body() updateTerminalDto: UpdateTerminalDto) {
+    return this.terminalService.update(code, updateTerminalDto);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.terminalService.remove(+id);
+  @Delete(':code')
+  remove(@Param('code') code: string) {
+    return this.terminalService.remove(code);
   }
 }
