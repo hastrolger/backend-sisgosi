@@ -1,1 +1,10 @@
-export class CreateTechnicalAssistanceTypeDto {}
+import { IsNotEmpty, IsOptional, MinLength } from "class-validator";
+
+export class CreateTechnicalAssistanceTypeDto {
+    @IsNotEmpty()
+    @MinLength(5)
+    name: string;
+
+    @IsOptional()
+    description: string
+}

@@ -3,7 +3,7 @@ import { TechnicalAssistanceStatusService } from './technical-assistance-status.
 import { CreateTechnicalAssistanceStatusDto } from './dto/create-technical-assistance-status.dto';
 import { UpdateTechnicalAssistanceStatusDto } from './dto/update-technical-assistance-status.dto';
 
-@Controller('technical-assistance-status')
+@Controller('technical-assistance-statuses')
 export class TechnicalAssistanceStatusController {
   constructor(private readonly technicalAssistanceStatusService: TechnicalAssistanceStatusService) {}
 
@@ -17,18 +17,14 @@ export class TechnicalAssistanceStatusController {
     return this.technicalAssistanceStatusService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.technicalAssistanceStatusService.findOne(+id);
+
+  @Patch(':name')
+  update(@Param('name') name: string, @Body() updateTechnicalAssistanceStatusDto: UpdateTechnicalAssistanceStatusDto) {
+    return this.technicalAssistanceStatusService.update(name, updateTechnicalAssistanceStatusDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTechnicalAssistanceStatusDto: UpdateTechnicalAssistanceStatusDto) {
-    return this.technicalAssistanceStatusService.update(+id, updateTechnicalAssistanceStatusDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.technicalAssistanceStatusService.remove(+id);
+  @Delete(':name')
+  remove(@Param('name') name: string) {
+    return this.technicalAssistanceStatusService.remove(name);
   }
 }

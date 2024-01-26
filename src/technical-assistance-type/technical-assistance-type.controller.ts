@@ -3,7 +3,7 @@ import { TechnicalAssistanceTypeService } from './technical-assistance-type.serv
 import { CreateTechnicalAssistanceTypeDto } from './dto/create-technical-assistance-type.dto';
 import { UpdateTechnicalAssistanceTypeDto } from './dto/update-technical-assistance-type.dto';
 
-@Controller('technical-assistance-type')
+@Controller('technical-assistance-types')
 export class TechnicalAssistanceTypeController {
   constructor(private readonly technicalAssistanceTypeService: TechnicalAssistanceTypeService) {}
 
@@ -17,18 +17,13 @@ export class TechnicalAssistanceTypeController {
     return this.technicalAssistanceTypeService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.technicalAssistanceTypeService.findOne(+id);
+  @Patch(':name')
+  update(@Param('name') name: string, @Body() updateTechnicalAssistanceTypeDto: UpdateTechnicalAssistanceTypeDto) {
+    return this.technicalAssistanceTypeService.update(name, updateTechnicalAssistanceTypeDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTechnicalAssistanceTypeDto: UpdateTechnicalAssistanceTypeDto) {
-    return this.technicalAssistanceTypeService.update(+id, updateTechnicalAssistanceTypeDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.technicalAssistanceTypeService.remove(+id);
+  @Delete(':name')
+  remove(@Param('name') name: string) {
+    return this.technicalAssistanceTypeService.remove(name);
   }
 }

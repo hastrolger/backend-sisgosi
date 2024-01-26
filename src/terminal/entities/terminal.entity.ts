@@ -95,5 +95,6 @@ export class Terminal {
     deletedAt: Date 
     
     @ManyToOne(()=>TerminalPurchaseOrder, (order)=>order.terminals)
-    purcahseOrder: TerminalPurchaseOrder
+    @JoinColumn({name:'purchase_order_id'})
+    purchaseOrder: TerminalPurchaseOrder
 }

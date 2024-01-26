@@ -15,9 +15,13 @@ import { TerminalVendor } from 'src/terminal-vendor/entities/terminal-vendor.ent
 import { TerminalPurchaseOrder } from 'src/terminal-purchase-order/entities/terminal-purchase-order.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Terminal, TerminalType, TerminalPurchaseOrder, TerminalStatus, TerminalModel, Region, City, State, Customer, TerminalLocation, TerminalVendor])],
+  imports: [TypeOrmModule.forFeature(
+    [Terminal, TerminalType, TerminalPurchaseOrder,
+      TerminalStatus, TerminalModel, Region,
+      City, State, Customer, TerminalLocation, TerminalVendor]
+  )],
   controllers: [TerminalController],
   providers: [TerminalService],
-  exports: [TypeOrmModule] 
+  exports: [TypeOrmModule]
 })
-export class TerminalModule {}
+export class TerminalModule { }

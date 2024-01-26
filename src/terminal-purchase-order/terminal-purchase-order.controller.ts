@@ -3,7 +3,7 @@ import { TerminalPurchaseOrderService } from './terminal-purchase-order.service'
 import { CreateTerminalPurchaseOrderDto } from './dto/create-terminal-purchase-order.dto';
 import { UpdateTerminalPurchaseOrderDto } from './dto/update-terminal-purchase-order.dto';
 
-@Controller('terminal-purchase-order')
+@Controller('terminal-purchase-orders')
 export class TerminalPurchaseOrderController {
   constructor(private readonly terminalPurchaseOrderService: TerminalPurchaseOrderService) {}
 
@@ -17,18 +17,13 @@ export class TerminalPurchaseOrderController {
     return this.terminalPurchaseOrderService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.terminalPurchaseOrderService.findOne(+id);
+  @Patch(':code')
+  update(@Param('code') code: string, @Body() updateTerminalPurchaseOrderDto: UpdateTerminalPurchaseOrderDto) {
+    return this.terminalPurchaseOrderService.update(code, updateTerminalPurchaseOrderDto);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTerminalPurchaseOrderDto: UpdateTerminalPurchaseOrderDto) {
-    return this.terminalPurchaseOrderService.update(+id, updateTerminalPurchaseOrderDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.terminalPurchaseOrderService.remove(+id);
+  @Delete(':code')
+  remove(@Param('code') code: string) {
+    return this.terminalPurchaseOrderService.remove(code);
   }
 }
