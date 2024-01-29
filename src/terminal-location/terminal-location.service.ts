@@ -10,6 +10,7 @@ export class TerminalLocationService {
   constructor(
     @InjectRepository(TerminalLocation) private terminalLocationRepository: Repository<TerminalLocation>
   ){}
+  
   async create(createTerminalLocationDto: CreateTerminalLocationDto) {
     try{
       const terminalLocation = await this.terminalLocationRepository.findOne(

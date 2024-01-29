@@ -2,7 +2,7 @@ import { IsNotEmpty, IsOptional, MinLength } from "class-validator";
 
 export class CreateInternalTechnicalAssistanceTypeDto {
     @IsNotEmpty()
-    technicalAssistance: string
+    technicalAssistanceType: string
 
     @IsNotEmpty()
     @MinLength(5)
@@ -10,5 +10,6 @@ export class CreateInternalTechnicalAssistanceTypeDto {
 
     @IsOptional()
     description: string
+
 }
 
