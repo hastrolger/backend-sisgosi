@@ -8,5 +8,6 @@ import { TechnicalAssistanceType } from './entities/technical-assistance-type.en
   imports: [TypeOrmModule.forFeature([TechnicalAssistanceType])],
   controllers: [TechnicalAssistanceTypeController],
   providers: [TechnicalAssistanceTypeService],
+  exports: [TypeOrmModule]
 })
 export class TechnicalAssistanceTypeModule {}
