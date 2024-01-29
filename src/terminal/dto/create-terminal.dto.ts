@@ -37,7 +37,6 @@ export class CreateTerminalDto {
     @IsNotEmpty()
     customer: string
 
-
     @IsNotEmpty()
     terminalStatus: string
 
